@@ -1,6 +1,6 @@
-- [ ] .env for private key
-- [ ] basic server configuration
-- [ ] ]web3 providers configuration
-- [ ] create new wallet enpoint
+- [x] .env for private key
+- [x] basic server configuration
+- [x] ]web3 providers configuration
+- [x] create new wallet enpoint
 - [ ] get current balance in network
 - [ ] deposit enpoint
