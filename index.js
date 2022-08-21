@@ -36,7 +36,7 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.get("/create-wallet", cors(corsOptions), (req, res) => {
+app.get("/create-wallet", (req, res) => {
   try {
     let newWallet = web3.eth.accounts.create();
     return res.json({
@@ -49,11 +49,11 @@ app.get("/create-wallet", cors(corsOptions), (req, res) => {
   }
 });
 
-app.get("/balance", cors(corsOptions), async (req, res) => {
-  if (!req.body.walletAddress) {
+app.get("/balance", async (req, res) => {
+  if (!req.query.walletAddress) {
     return res.json({ status: 400, message: "walletAddress is required" });
   }
-  let walletAddress = req.body.walletAddress;
+  let walletAddress = req.query.walletAddress;
   try {
     let balance = await contract.methods.balanceOf(walletAddress).call();
     return res.json({ balance: balance });
@@ -62,7 +62,7 @@ app.get("/balance", cors(corsOptions), async (req, res) => {
   }
 });
 
-app.post("/deposit", cors(corsOptions), async (req, res) => {
+app.post("/deposit", async (req, res) => {
   if (!req.body.address || !req.body.amount) {
     return res.json({
       status: 400,
