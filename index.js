@@ -4,11 +4,13 @@ import Web3 from "web3";
 import bodyParser from "body-parser";
 import Contract from "web3-eth-contract";
 import { beerTokenABI } from "./ABI.js";
+import cors from "cors";
 
 dot.config();
 
 const app = express();
 app.use(bodyParser.json());
+app.use(cors());
 const port = process.env.PORT;
 const polygonInfuraUrl = process.env.POLYGON_INFURA_URL;
 const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
