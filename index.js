@@ -24,6 +24,11 @@ let contract = new Contract(
   "0x25A580558292aAeD2043bD3BAef0f43A6e2a49c2"
 );
 
+let corsOptions = {
+	origin:'*',
+	optionsSuccessStatus:200
+}
+
 contract.setProvider(polygonInfuraUrl);
 web3.eth.accounts.wallet.add(walletPrivateKey);
 
@@ -31,7 +36,7 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-app.get("/create-wallet", (req, res) => {
+app.get("/create-wallet", cors(corsOptions), (req, res) => {
   try {
     let newWallet = web3.eth.accounts.create();
     return res.json({
@@ -44,7 +49,7 @@ app.get("/create-wallet", (req, res) => {
   }
 });
 
-app.get("/balance", async (req, res) => {
+app.get("/balance", cors(corsOptions), async (req, res) => {
   if (!req.body.walletAddress) {
     return res.json({ status: 400, message: "walletAddress is required" });
   }
@@ -57,7 +62,7 @@ app.get("/balance", async (req, res) => {
   }
 });
 
-app.post("/deposit", async (req, res) => {
+app.post("/deposit", cors(corsOptions), async (req, res) => {
   if (!req.body.address || !req.body.amount) {
     return res.json({
       status: 400,
