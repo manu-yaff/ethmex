@@ -10,7 +10,7 @@ dot.config();
 
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+app.options('*', cors());
 const port = process.env.PORT;
 const polygonInfuraUrl = process.env.POLYGON_INFURA_URL;
 const walletPrivateKey = process.env.WALLET_PRIVATE_KEY;
@@ -45,10 +45,10 @@ app.get("/create-wallet", (req, res) => {
 });
 
 app.get("/balance", async (req, res) => {
-  if (!req.query.address) {
-    return res.json({ status: 400, message: "Address is required" });
+  if (!req.body.walletAddress) {
+    return res.json({ status: 400, message: "walletAddress is required" });
   }
-  let walletAddress = req.query.walletAddress;
+  let walletAddress = req.body.walletAddress;
   try {
     let balance = await contract.methods.balanceOf(walletAddress).call();
     return res.json({ balance: balance });
