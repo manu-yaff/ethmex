@@ -29,9 +29,16 @@ app.listen(port, () => {
 	console.log(`Server running on port ${port}`);
 });
 
-app.get('/create-wallet', () => {
-	let newWallet = web3.eth.accounts.create();
-	// console.log(newWallet);
+app.get('/create-wallet', (req,res) => {
+	try{
+		let newWallet = web3.eth.accounts.create();
+		return res.json({status:200,
+			addres: newWallet.address, 
+			privateKey: newWallet.privateKey});
+	}catch(err){
+		return res.json({status:500, 
+						message: err.message});
+	}
 });
 
 app.get('/balance',async (req,res) => {
